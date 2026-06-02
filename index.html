@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Career Compass AI - Dynamic AI-driven career recommendations aligning with SDG 4 and Vision 2030.">
+    <title>Career Compass AI - Navigate Your Professional Journey</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-compass-drafting"></i> Career<span>Compass AI</span>
+            </a>
+            
+            <button class="menu-btn" id="menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About SDG 4</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#explore">Explore</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark/Light Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn btn-primary" id="login-nav-btn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home" style="padding: 9rem 0 5rem; background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%); position: relative;">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+            <div class="hero-text fade-in">
+                <div class="sdg-badge" style="margin-bottom: 1.5rem;">
+                    <i class="fa-solid fa-book-open"></i> Supporting UN SDG 4 & Vision 2030
+                </div>
+                <h1 style="font-size: 3.5rem; line-height: 1.15; margin-bottom: 1.5rem; font-weight: 800;">
+                    Navigate Your Future with <span style="background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Precision AI</span>
+                </h1>
+                <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 550px;">
+                    Career Compass AI is an intelligent system designed to help students map skills, academic details, and personal interests into tailored professional roadmaps.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary btn-lg" id="hero-get-started">
+                        Get Started <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <a href="#explore" class="btn btn-secondary btn-lg">
+                        Explore Careers <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image-container" style="display: flex; justify-content: center; position: relative;">
+                <!-- Modern Visual Mockup -->
+                <div style="width: 100%; max-width: 460px; height: 350px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-xl); position: relative; overflow: hidden;">
+                    <div style="position: absolute; width: 300px; height: 300px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; top: -100px; right: -100px; pointer-events: none;"></div>
+                    <div style="position: absolute; width: 150px; height: 150px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; bottom: -50px; left: -50px; pointer-events: none;"></div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; z-index: 1;">
+                        <span style="color: rgba(255,255,255,0.9); font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-brain"></i> AI Assessment
+                        </span>
+                        <span style="background: rgba(255,255,255,0.25); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 600;">ACTIVE</span>
+                    </div>
+
+                    <div style="margin: 2rem 0; z-index: 1;">
+                        <div style="color: white; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">MATCH RECOMMENDATION</div>
+                        <div style="color: white; font-size: 1.8rem; font-weight: 800; font-family: var(--font-heading); margin-bottom: 0.5rem;">Software Engineer</div>
+                        <div style="width: 100%; height: 6px; background: rgba(255, 255, 255, 0.3); border-radius: 3px;">
+                            <div style="width: 92%; height: 100%; background: #ffffff; border-radius: 3px; box-shadow: 0 0 10px white;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-top: 0.25rem;">
+                            <span>92% match rate</span>
+                            <span>High Demand</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; overflow: hidden; z-index: 1;">
+                        <span style="background: rgba(255,255,255,0.2); color: white; padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.75rem;">Python</span>
+                        <span style="background: rgba(255,255,255,0.2); color: white; padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.75rem;">Algorithms</span>
+                        <span style="background: rgba(255,255,255,0.2); color: white; padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.75rem;">Web Dev</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section style="background-color: var(--bg-secondary); padding: 3rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+            <div>
+                <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.25rem;">94%</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Success Match Rate</p>
+            </div>
+            <div>
+                <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.25rem;">5,000+</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">University Students Guided</p>
+            </div>
+            <div>
+                <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.25rem;">15+</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Major Disciplines Supported</p>
+            </div>
+            <div>
+                <h3 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.25rem;">SDG 4</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Aligned Objective</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SDG & Vision 2030 Section -->
+    <section id="about" style="padding: 5rem 0; background-color: var(--bg-primary);">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+            <div>
+                <div style="background-color: #c5192d; color: white; display: inline-block; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; margin-bottom: 1.5rem;">
+                    UN SUSTAINABLE DEVELOPMENT GOAL 4
+                </div>
+                <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Quality Education & Youth Readiness</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    SDG Target 4.4 aims to substantially increase the number of youth and adults who have relevant skills, including technical and vocational skills, for employment, decent jobs, and entrepreneurship.
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Additionally, our system aligns directly with global visions (such as Vision 2030 and Vision 2035) by encouraging technology and digital competence. By offering clear career roadmaps, students can align their current university program choices directly to market demands.
+                </p>
+                <ul style="list-style: none; margin-bottom: 2rem;">
+                    <li style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Free, accessible AI recommendations for all students
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Bridges academic curriculum with actual industrial skills
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Built-in training references and free learning platforms
+                    </li>
+                </ul>
+            </div>
+            <div style="background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem; box-shadow: var(--shadow-lg);">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> Why Career Compass?
+                </h3>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Skills Mapping</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        Input your current skills and let the AI find gaps between your current level and the requirements of top career paths.
+                    </p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Structured Roadmaps</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        Step-by-step career path progression guides displaying exactly what to study, what to build, and where to practice.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Counselor Integration</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        Enables counselors and university staff to monitor career choice statistics, download aggregated performance metrics, and post recommendations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="padding: 5rem 0; background-color: var(--bg-secondary); border-top: 1px solid var(--border);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Empowering Features</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                    We provide a comprehensive ecosystem of tools designed for students, administrators, and counselor leads.
+                </p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <!-- Feature 1 -->
+                <div class="card" style="text-align: left;">
+                    <div style="width: 3.5rem; height: 3.5rem; background-color: var(--primary-light); color: var(--primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">AI Career Mapper</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Analyzes your skills, program, and interests to suggest top-tier career paths like UI/UX, Cybersecurity, or Data Analyst.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card" style="text-align: left;">
+                    <div style="width: 3.5rem; height: 3.5rem; background-color: var(--accent-light); color: var(--accent); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">
+                        <i class="fa-solid fa-map-signs"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Dynamic Career Roadmaps</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Interactive learning paths showing which technologies to master, milestones to cross, and salaries to expect.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card" style="text-align: left;">
+                    <div style="width: 3.5rem; height: 3.5rem; background-color: var(--primary-light); color: var(--primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">AI Chat Assistant</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Chat with our virtual guidance agent to get instantaneous answers about industry demand, skill prerequisites, and tech stack options.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card" style="text-align: left;">
+                    <div style="width: 3.5rem; height: 3.5rem; background-color: var(--accent-light); color: var(--accent); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Counselor Logs & Reports</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Enables academic counselors to review aggregate data, check students' skill progress, and download PDF-friendly career reports.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore & Interactive Quiz Section -->
+    <section id="explore" style="padding: 5rem 0; background-color: var(--bg-primary);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Explore Career Fields</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                    Search or filter standard career categories or take a quick mini-quiz to find your ideal domain!
+                </p>
+            </div>
+
+            <!-- Quiz Overlay Widget -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 4rem;">
+                <!-- Career search -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-magnifying-glass" style="color: var(--primary);"></i> Browse Careers</h3>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <input type="text" id="search-career-input" class="form-control" placeholder="Search (e.g. Developer, UX)..." style="flex: 1;">
+                            <select id="filter-career-select" class="form-control" style="width: auto;">
+                                <option value="all">All Fields</option>
+                                <option value="development">Development</option>
+                                <option value="data">Data Science</option>
+                                <option value="design">Design</option>
+                                <option value="security">Cybersecurity</option>
+                            </select>
+                        </div>
+                        <div id="landing-careers-container" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 250px; overflow-y: auto; padding-right: 0.5rem;">
+                            <!-- Dynamically generated through js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Quiz -->
+                <div class="card" id="mini-quiz-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-circle-question" style="color: var(--accent);"></i> Career Field Quick Match</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                            Answer 3 fast questions to determine which digital domain best suits your interests.
+                        </p>
+                        
+                        <!-- Quiz Form container -->
+                        <div id="quiz-question-container">
+                            <!-- JS loaded -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 5rem 0; background-color: var(--bg-secondary); border-top: 1px solid var(--border);">
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Get In Touch</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 3rem;">
+                Have questions about Career Compass AI or integration? Send us a message and our advisors will get back to you.
+            </p>
+            
+            <form id="contact-form" class="card" style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="contact-name">Your Name</label>
+                        <input type="text" id="contact-name" class="form-control" required placeholder="Ali Khan">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="contact-email">Email Address</label>
+                        <input type="email" id="contact-email" class="form-control" required placeholder="ali@university.edu">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contact-subject">Subject</label>
+                    <input type="text" id="contact-subject" class="form-control" required placeholder="Integration query or general feedback">
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" class="form-control" rows="4" required placeholder="Enter details here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fa-solid fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><i class="fa-solid fa-compass-drafting"></i> Career Compass</h3>
+                    <p style="margin-top: 0.5rem; max-width: 250px;">
+                        Providing actionable, AI-driven guidance for students, counseling offices, and universities. Aligning education with career growth.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">SDG 4 Alignment</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#explore">Explore Fields</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Dashboards</h4>
+                    <ul>
+                        <li><a href="#" class="login-trigger-btn">Student Dashboard</a></li>
+                        <li><a href="#" class="login-trigger-btn">Counselor Panel</a></li>
+                        <li><a href="#" class="login-trigger-btn">Admin Panel</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Alignment & Vision</h4>
+                    <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <span class="sdg-badge"><i class="fa-solid fa-book-open"></i> Goal 4: Quality Ed</span>
+                        <span style="background-color: var(--primary); color: white; padding: 0.35rem 0.75rem; font-weight: 700; font-size: 0.8rem; border-radius: var(--radius-sm); text-align: center;">Vision 2030 / 2035</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Career Compass AI. All rights reserved. Built for university career support.</p>
+                <div style="display: flex; gap: 1rem; font-size: 1.25rem;">
+                    <a href="#" aria-label="Github"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth / Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal-btn">&times;</button>
+            <div class="modal-tabs">
+                <div class="modal-tab active" id="tab-login">Login</div>
+                <div class="modal-tab" id="tab-register">Register</div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-control" required placeholder="e.g. student@compass.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" required placeholder="e.g. password">
+                </div>
+                <div class="form-group">
+                    <label for="login-role">Login As</label>
+                    <select id="login-role" class="form-control">
+                        <option value="student">Student</option>
+                        <option value="counselor">Career Counselor / University</option>
+                        <option value="admin">System Administrator</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Sign In
+                </button>
+
+                <!-- Demo Credentials Help -->
+                <div class="demo-account-info">
+                    <strong>Demo Accounts (Click to Fill):</strong>
+                    <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem;">
+                        <div>
+                            <button type="button" class="demo-btn" onclick="fillDemo('student@compass.com', 'password', 'student')">Student Demo</button> 
+                            <span style="color: var(--text-muted); font-size: 0.75rem;">(student@compass.com)</span>
+                        </div>
+                        <div>
+                            <button type="button" class="demo-btn" onclick="fillDemo('counselor@compass.com', 'password', 'counselor')">Counselor Demo</button> 
+                            <span style="color: var(--text-muted); font-size: 0.75rem;">(counselor@compass.com)</span>
+                        </div>
+                        <div>
+                            <button type="button" class="demo-btn" onclick="fillDemo('admin@compass.com', 'password', 'admin')">Admin Demo</button> 
+                            <span style="color: var(--text-muted); font-size: 0.75rem;">(admin@compass.com)</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Register Form (Initially Hidden) -->
+            <form id="register-form" style="display: none;">
+                <div class="form-group">
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" class="form-control" required placeholder="Ali Khan">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" class="form-control" required placeholder="ali@compass.com">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" class="form-control" required placeholder="Min 6 characters">
+                </div>
+                <div class="form-group">
+                    <label for="reg-role">Register As</label>
+                    <select id="reg-role" class="form-control">
+                        <option value="student">Student</option>
+                        <option value="counselor">Career Counselor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

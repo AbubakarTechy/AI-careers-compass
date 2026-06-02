@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Admin - Career Compass AI</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            padding: 6rem 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stats-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            max-height: 350px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-tertiary);
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .badge-student { background-color: var(--primary-light); color: var(--primary); }
+        .badge-counselor { background-color: var(--accent-light); color: var(--accent); }
+        .badge-admin { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+        .feedback-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-compass-drafting"></i> Career<span>Compass AI</span>
+            </a>
+            
+            <span style="font-weight: 600; color: var(--text-secondary); background: var(--bg-tertiary); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                Administrator Workspace
+            </span>
+
+            <div class="nav-actions">
+                <span id="nav-user-name" style="font-weight: 600; margin-right: 0.5rem; display: none;">Admin Name</span>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark/Light Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn btn-secondary btn-icon" id="logout-btn" title="Sign Out">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        
+        <!-- Stats summary row -->
+        <div class="stats-grid">
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: var(--primary-light); color: var(--primary);">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <h3 id="stat-total-users" style="font-size: 1.75rem; line-height: 1.1;">0</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Total Users Registered</p>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: var(--accent-light); color: var(--accent);">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div>
+                    <h3 id="stat-total-careers" style="font-size: 1.75rem; line-height: 1.1;">0</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Career Paths in Engine</p>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div>
+                    <h3 id="stat-total-feedback" style="font-size: 1.75rem; line-height: 1.1;">0</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Feedback Submissions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upper Split Grid: Users & Career categories -->
+        <div class="split-grid">
+            
+            <!-- LEFT PANEL: Manage Users -->
+            <div class="card" style="padding: 1.5rem; text-align: left;">
+                <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span><i class="fa-solid fa-user-gear" style="color: var(--primary);"></i> User Management</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">View & Create Users</span>
+                </h3>
+
+                <!-- User Table -->
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name / Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add User Form inline -->
+                <form id="add-user-form" style="border-top: 1px solid var(--border); padding-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div class="form-group" style="grid-column: span 2; margin-bottom: 0.5rem;">
+                        <strong style="font-size: 0.85rem;">Create New User Account</strong>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <input type="text" id="add-user-name" class="form-control" placeholder="Name" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <input type="email" id="add-user-email" class="form-control" placeholder="Email Address" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <input type="password" id="add-user-pass" class="form-control" placeholder="Password" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <select id="add-user-role" class="form-control" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                            <option value="student">Student</option>
+                            <option value="counselor">Career Counselor</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="grid-column: span 2; padding: 0.5rem; font-size: 0.85rem;">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+
+            <!-- RIGHT PANEL: Manage Career Categories -->
+            <div class="card" style="padding: 1.5rem; text-align: left;">
+                <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span><i class="fa-solid fa-briefcase" style="color: var(--accent);"></i> Career Directory Engine</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Add/Edit Categories</span>
+                </h3>
+
+                <!-- Careers list -->
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Career Path</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="careers-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add/Edit Career Form -->
+                <form id="add-career-form" style="border-top: 1px solid var(--border); padding-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <input type="hidden" id="edit-career-id" value="">
+                    
+                    <div class="form-group" style="grid-column: span 2; margin-bottom: 0.5rem;">
+                        <strong id="career-form-title" style="font-size: 0.85rem;">Add New Career Recommendation Profile</strong>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Career Name</label>
+                        <input type="text" id="career-name" class="form-control" placeholder="e.g. AI Researcher" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Category</label>
+                        <select id="career-category" class="form-control" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                            <option value="development">Development</option>
+                            <option value="design">Design</option>
+                            <option value="data">Data Science</option>
+                            <option value="security">Cybersecurity</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.5rem; grid-column: span 2;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Why Recommended (Rationale)</label>
+                        <input type="text" id="career-rationale" class="form-control" placeholder="Match profile reasoning..." required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Salary Estimate</label>
+                        <input type="text" id="career-salary" class="form-control" placeholder="e.g. $90,000 - $140,000" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Required Skills (Comma separated)</label>
+                        <input type="text" id="career-skills" class="form-control" placeholder="e.g. Python, Math, Stats" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.5rem; grid-column: span 2;">
+                        <label style="font-size: 0.75rem; margin-bottom: 0.25rem;">Roadmap Milestones (Comma separated)</label>
+                        <input type="text" id="career-roadmap" class="form-control" placeholder="e.g. Learn Math, Master SQL, Practice modeling" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    </div>
+
+                    <div style="grid-column: span 2; display: flex; gap: 0.5rem;">
+                        <button type="submit" class="btn btn-accent" id="submit-career-btn" style="flex: 1; padding: 0.5rem; font-size: 0.85rem;">
+                            Save Career
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancel-career-edit-btn" style="display: none; padding: 0.5rem; font-size: 0.85rem;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Lower Grid: Feedback Log submissions -->
+        <section style="margin-top: 2rem;">
+            <h2 style="font-size: 1.4rem; margin-bottom: 1rem;"><i class="fa-solid fa-envelope-open-text" style="color: #f59e0b;"></i> User Feedback Inbox</h2>
+            <div id="feedback-inbox-container">
+                <!-- Feedback loaded dynamically -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Admin JS -->
+    <script src="admin.js"></script>
+</body>
+</html>

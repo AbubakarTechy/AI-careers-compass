@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Career Compass AI</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific layout overrides for modern dashboard aesthetics */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 1.5rem;
+            padding: 6rem 1.5rem 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 300px 1fr;
+            }
+            .sidebar-right {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                padding-top: 5.5rem;
+            }
+            .sidebar-left, .main-dashboard, .sidebar-right {
+                grid-column: span 1;
+            }
+        }
+
+        .dashboard-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+
+        .tag-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .tag i {
+            cursor: pointer;
+        }
+
+        /* Roadmap vertical alignment */
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border);
+        }
+
+        .roadmap-node {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .roadmap-node::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 4px solid var(--bg-secondary);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        /* Chat Widget */
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 320px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 0.65rem 0.85rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+        }
+
+        .chat-msg.bot {
+            align-self: flex-start;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item.completed span {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* Recommendation cards styling */
+        .rec-card {
+            border-left: 5px solid var(--primary);
+            transition: all var(--transition-normal);
+        }
+
+        .rec-card:hover {
+            transform: scale(1.01);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .spinner i {
+            font-size: 3rem;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-compass-drafting"></i> Career<span>Compass AI</span>
+            </a>
+            
+            <span style="font-weight: 600; color: var(--text-secondary); background: var(--bg-tertiary); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                Student Workspace
+            </span>
+
+            <div class="nav-actions">
+                <span id="nav-user-name" style="font-weight: 600; margin-right: 0.5rem; display: none;">Student Name</span>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark/Light Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn btn-secondary btn-icon" id="logout-btn" title="Sign Out">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Main Grid -->
+    <div class="dashboard-container">
+        
+        <!-- SIDEBAR LEFT: Profile Forms & Inputs -->
+        <aside class="sidebar-left">
+            <div class="dashboard-card">
+                <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                    <i class="fa-solid fa-user-circle" style="color: var(--primary);"></i> Student Profile
+                </h3>
+                
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="degree-input">Degree Program</label>
+                        <input type="text" id="degree-input" class="form-control" placeholder="e.g. BS Computer Science" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject-input">Favorite Subjects</label>
+                        <input type="text" id="subject-input" class="form-control" placeholder="e.g. Databases, Programming">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Interests / Fields</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="interest-add-input" class="form-control" placeholder="e.g. Graphic Design, Audits">
+                            <button type="button" class="btn btn-primary" id="add-interest-btn" style="padding: 0.5rem 1rem;">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="tag-input-container" id="interests-tags-container">
+                            <!-- Tags added by script -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Skills</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="skill-add-input" class="form-control" placeholder="e.g. Java, Figma, Excel">
+                            <button type="button" class="btn btn-primary" id="add-skill-btn" style="padding: 0.5rem 1rem;">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="tag-input-container" id="skills-tags-container">
+                            <!-- Tags added by script -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals-input">Career Goals</label>
+                        <textarea id="goals-input" class="form-control" rows="3" placeholder="What are your professional goals?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- CENTER PANEL: AI Recommendation & Roadmaps -->
+        <main class="main-dashboard">
+            <div class="dashboard-card" style="text-align: center; background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-secondary) 100%);">
+                <h2 style="font-size: 1.6rem; margin-bottom: 0.75rem; color: var(--text-primary);">
+                    Uncover Your AI Career Recommendations
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Press the button below to trigger the recommendation engine. The system analyzes your skills, program major, and favorite subjects to generate top 3 roadmap matches.
+                </p>
+                <button class="btn btn-accent btn-lg" id="generate-recommendations-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Career Path
+                </button>
+            </div>
+
+            <!-- Loader -->
+            <div class="spinner" id="recommendation-spinner">
+                <i class="fa-solid fa-gear"></i>
+                <h4 style="margin-top: 1rem; color: var(--text-primary);">Analyzing Profile & Generating Roadmaps...</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Consulting SDG 4 employment standards</p>
+            </div>
+
+            <!-- Career Recommendations Results -->
+            <section id="recommendations-results" style="display: none;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between;">
+                    <span><i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Generated Recommendations</span>
+                    <span style="font-size: 0.8rem; background-color: var(--accent-light); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: var(--radius-full);">Top 3 Fits</span>
+                </h3>
+                
+                <div id="recommendations-cards-container">
+                    <!-- Cards will be populated by student.js -->
+                </div>
+            </section>
+        </main>
+
+        <!-- SIDEBAR RIGHT: Chat Assistant, Checklist Tracker, Resume Tips -->
+        <aside class="sidebar-right">
+            <!-- Progress Tracker -->
+            <div class="dashboard-card">
+                <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span><i class="fa-solid fa-list-check" style="color: var(--success);"></i> Progress Tracker</span>
+                    <span id="progress-percent" style="font-size: 0.9rem; background-color: var(--primary-light); color: var(--primary); padding: 0.15rem 0.5rem; border-radius: var(--radius-sm); font-weight: 700;">0%</span>
+                </h3>
+                
+                <div style="width: 100%; height: 8px; background-color: var(--bg-primary); border-radius: 4px; margin-bottom: 1rem; overflow: hidden; border: 1px solid var(--border);">
+                    <div id="progress-bar-fill" style="width: 0%; height: 100%; background-color: var(--success); transition: width var(--transition-normal);"></div>
+                </div>
+
+                <div id="checklist-items-container">
+                    <!-- Loaded dynamically -->
+                </div>
+
+                <!-- Add custom checklist item -->
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <input type="text" id="new-item-input" class="form-control" placeholder="Add custom goal..." style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                    <button type="button" class="btn btn-secondary" id="add-goal-btn" style="padding: 0.4rem 0.75rem;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Saved Careers Quick View -->
+            <div class="dashboard-card" id="saved-careers-box" style="display: none;">
+                <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                    <i class="fa-solid fa-star" style="color: var(--warning);"></i> Saved Careers
+                </h3>
+                <div id="saved-careers-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Resume Tips -->
+            <div class="dashboard-card">
+                <h3 style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                    <i class="fa-solid fa-file-invoice" style="color: var(--primary);"></i> Resume Tips
+                </h3>
+                <div id="resume-tips-content" style="font-size: 0.85rem; color: var(--text-secondary);">
+                    <p style="margin-bottom: 0.5rem;">Enter profile details to receive specific suggestions.</p>
+                </div>
+            </div>
+
+            <!-- AI Chat Assistant Widget -->
+            <div class="dashboard-card chat-box">
+                <h3 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-comments" style="color: var(--primary);"></i> Compass Chatbot
+                </h3>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-msg bot">
+                        Hello! Ask me any career question. E.g. "What salary does a Data Analyst get?" or "What tools do I need for UI/UX?"
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="chat-input" class="form-control" placeholder="Ask career question..." style="font-size: 0.85rem; padding: 0.5rem 0.75rem; flex: 1;">
+                    <button class="btn btn-primary" id="chat-send-btn" style="padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Student Dashboard JavaScript -->
+    <script src="student.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counselor Lead - Career Compass AI</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .counselor-container {
+            padding: 6rem 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stats-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-tertiary);
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .progress-bar-container {
+            width: 120px;
+            height: 8px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+
+        .training-item {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .training-delete-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Modal specific to viewing report */
+        .report-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1200;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-normal);
+        }
+
+        .report-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .report-modal-content {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 650px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-compass-drafting"></i> Career<span>Compass AI</span>
+            </a>
+            
+            <span style="font-weight: 600; color: var(--text-secondary); background: var(--bg-tertiary); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                Counselor Workspace
+            </span>
+
+            <div class="nav-actions">
+                <span id="nav-user-name" style="font-weight: 600; margin-right: 0.5rem; display: none;">Counselor Name</span>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark/Light Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn btn-secondary btn-icon" id="logout-btn" title="Sign Out">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="counselor-container">
+        
+        <!-- Stats Summary Cards Row -->
+        <div class="stats-grid">
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: var(--primary-light); color: var(--primary);">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <div>
+                    <h3 id="stat-total-students" style="font-size: 1.75rem; line-height: 1.1;">0</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Total Students Tracked</p>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: var(--accent-light); color: var(--accent);">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div>
+                    <h3 id="stat-top-career" style="font-size: 1.5rem; line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px;">None</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Top Career Fit</p>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <div class="stats-icon" style="background-color: rgba(16, 185, 129, 0.15); color: var(--success);">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <h3 id="stat-avg-progress" style="font-size: 1.75rem; line-height: 1.1;">0%</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Average Prep Completion</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Layout Split -->
+        <div class="main-layout">
+            
+            <!-- Left Side: Student Report Grid -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="font-size: 1.4rem;"><i class="fa-solid fa-table-list" style="color: var(--primary);"></i> Student Records</h2>
+                    <button class="btn btn-primary btn-sm" id="download-all-report-btn">
+                        <i class="fa-solid fa-download"></i> Export Data Report
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student Email / Name</th>
+                                <th>Degree Program</th>
+                                <th>Top Career Fit</th>
+                                <th>Progress</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Side: Analytics Charts & Counselor Recommendations -->
+            <div>
+                <!-- Career Breakdown Chart -->
+                <div class="stats-card" style="flex-direction: column; align-items: stretch; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fa-solid fa-chart-pie" style="color: var(--accent);"></i> Career Distribution Chart
+                    </h3>
+                    <div style="position: relative; height: 220px; width: 100%;">
+                        <canvas id="careerChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- notice board / Training recommendations -->
+                <div class="stats-card" style="flex-direction: column; align-items: stretch;">
+                    <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fa-solid fa-bullhorn" style="color: var(--primary);"></i> Counselor Announcements
+                    </h3>
+                    
+                    <div id="announcements-container" style="max-height: 250px; overflow-y: auto; margin-bottom: 1rem; padding-right: 0.25rem;">
+                        <!-- Announcements loaded dynamically -->
+                    </div>
+
+                    <!-- Post announcement form -->
+                    <form id="post-announcement-form" style="border-top: 1px solid var(--border); padding-top: 1rem;">
+                        <div class="form-group">
+                            <label for="announce-title" style="font-size: 0.8rem;">Resource Name</label>
+                            <input type="text" id="announce-title" class="form-control" placeholder="e.g. Free Coursera Vouchers" required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                        </div>
+                        <div class="form-group">
+                            <label for="announce-text" style="font-size: 0.8rem;">Details / Link</label>
+                            <textarea id="announce-text" class="form-control" rows="2" placeholder="e.g. Visit counseling desk by June 15 to request access key." required style="padding: 0.4rem 0.75rem; font-size: 0.85rem;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+                            Post Announcement
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Student Detail Modal Overlay -->
+    <div class="report-modal" id="student-detail-modal">
+        <div class="report-modal-content">
+            <button class="close-modal" id="close-detail-modal-btn" style="position: absolute; top: 1.25rem; right: 1.25rem; background:none; font-size: 1.5rem; cursor:pointer;">&times;</button>
+            <div id="modal-detail-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Counselor JS -->
+    <script src="counselor.js"></script>
+</body>
+</html>
